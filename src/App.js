@@ -40,7 +40,7 @@ const verify = (address, amount, nonce, signature) => {
     }
   );
 
-  contractInstance.methods.verify(process.env.REACT_APP_CONTRACT_OWNER_ADDRESS, address, amount, nonce, signature).call(function (error, result) {
+  contractInstance.methods.verify(amount, nonce, signature).call(function (error, result) {
     if (error) {
       console.log(error);
 

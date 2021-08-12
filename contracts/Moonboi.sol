@@ -18,15 +18,11 @@ contract Moonboi is ERC20, Ownable {
         return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _messageHash));
     }
 
-    function verify(
-        address _signer,
-        address _to, uint256 _amount, uint256 _nonce,
-        bytes memory signature
-    ) public view returns (bool) {
-        bytes32 messageHash = getMessageHash(_to, _amount, _nonce);
+    function verify(uint256 _amount, uint256 _nonce, bytes memory signature) public view returns (bool) {
+        bytes32 messageHash = getMessageHash(msg.sender, _amount, _nonce);
         bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
 
-        return recoverSigner(ethSignedMessageHash, signature) == _signer;
+        return recoverSigner(ethSignedMessageHash, signature) == owner();
     }
 
     function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature) public pure returns (address) {
